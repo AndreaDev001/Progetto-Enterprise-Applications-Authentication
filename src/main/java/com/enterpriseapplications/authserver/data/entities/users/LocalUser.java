@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "USERS")
+@Table(name = "LOCAL_USERS")
 @EntityListeners({AuditingEntityListener.class})
 @Data
 @AllArgsConstructor

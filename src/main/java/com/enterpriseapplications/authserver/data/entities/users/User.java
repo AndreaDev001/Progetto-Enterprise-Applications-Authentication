@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "USERS")
 @Inheritance(strategy = InheritanceType.JOINED)
 @EntityListeners({AuditingEntityListener.class})
 @Data

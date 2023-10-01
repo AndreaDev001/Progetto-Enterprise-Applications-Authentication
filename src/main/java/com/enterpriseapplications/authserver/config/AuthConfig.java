@@ -71,14 +71,15 @@ public class AuthConfig
         FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer()
                 .oAuth2UserConsumer(new OAuth2UserHandler());
         httpSecurity.authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/users/**").permitAll()
+                        auth.requestMatchers("/users/**","/localUsers/**","/googleUsers/**","/githubUsers/**","/facebookUsers/**").permitAll()
                                 .requestMatchers("/roles/**").permitAll()
                                 .requestMatchers("/clients/**").permitAll()
                                 .requestMatchers("/login").permitAll()
-                                .anyRequest().permitAll())
+                                .requestMatchers("/register").permitAll()
+                                .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
-        httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/clients/**"));
-        httpSecurity.apply(new FederatedIdentityConfigurer());
+        httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/localUsers/**","/clients/**"));
+        httpSecurity.apply(federatedIdentityConfigurer);
         return httpSecurity.build();
     }
 

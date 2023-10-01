@@ -28,7 +28,8 @@ public class LocalUserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<LocalUserDto> createUser(@Valid @RequestBody CreateLocalUserDto createUserDto) {
+    public ResponseEntity<LocalUserDto> createUser(@RequestBody CreateLocalUserDto createUserDto) {
+        System.out.println("CALLED");
         return ResponseEntity.ok(this.userService.createUser(createUserDto));
     }
 }
