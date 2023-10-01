@@ -76,6 +76,7 @@ public class AuthConfig
                                 .requestMatchers("/clients/**").permitAll()
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
+                                .requestMatchers("/documentation/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/localUsers/**","/clients/**"));
