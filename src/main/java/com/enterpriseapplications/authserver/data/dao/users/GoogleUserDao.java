@@ -11,8 +11,9 @@ import java.util.UUID;
 import java.util.Optional;
 
 @Repository
-public interface GoogleUserDao extends JpaRepository<GoogleUser, UUID>
-{
+public interface GoogleUserDao extends JpaRepository<GoogleUser, UUID> {
     @Query("select g from GoogleUser g where g.username = :requiredUsername")
     Optional<GoogleUser> getGoogleUser(@Param("requiredUsername") String username);
+    @Query("select g from GoogleUser g where g.externalID = :requiredExternalID")
+    Optional<GoogleUser> getGoogleUserByExternalID(@Param("requiredExternalID") String externalID);
 }

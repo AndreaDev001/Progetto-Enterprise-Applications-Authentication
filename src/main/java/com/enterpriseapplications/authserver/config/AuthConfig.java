@@ -50,9 +50,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthConfig
 {
-    private final LocalUserDao localUserDao;
     private final UserDetailsServiceImp userDetailsServiceImp;
     private final PasswordAuthenticationProvider passwordAuthenticationProvider;
+    private final OAuth2UserHandler oAuth2UserHandler;
 
     @Bean
     @Order(1)
@@ -69,7 +69,7 @@ public class AuthConfig
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity httpSecurity) throws Exception {
         FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer()
-                .oAuth2UserConsumer(new OAuth2UserHandler());
+                .oAuth2UserConsumer(oAuth2UserHandler);
         httpSecurity.authorizeHttpRequests(auth ->
                         auth.requestMatchers("/users/**","/localUsers/**","/googleUsers/**","/githubUsers/**","/facebookUsers/**").permitAll()
                                 .requestMatchers("/roles/**").permitAll()
@@ -148,24 +148,5 @@ public class AuthConfig
     @Bean
     public OAuth2AuthorizationConsentService auth2AuthorizationConsentService() {
         return new InMemoryOAuth2AuthorizationConsentService();
-    }
-
-
-    @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
-        return context -> {
-            Authentication principal = context.getPrincipal();
-            context.getClaims().claim("type",context.getTokenType().getValue());
-            if(principal instanceof UsernamePasswordAuthenticationToken) {
-                LocalUser requiredUser = this.localUserDao.findById(UUID.fromString(principal.getName())).orElseThrow();
-                Set<String> roles = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-                context.getClaims().claim("roles",roles);
-                context.getClaims().claim("username",requiredUser.getUsername());
-                context.getClaims().claim("email",requiredUser.getEmail());
-            }
-            else if(principal instanceof OAuth2AuthenticationToken) {
-
-            }
-        };
     }
 }

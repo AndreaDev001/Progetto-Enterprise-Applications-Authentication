@@ -10,5 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class GoogleUserDto extends UserDto
 {
-
+    private String externalID;
+    private String name;
+    private String givenName;
+    private String familyName;
+    private String pictureURL;
 }
