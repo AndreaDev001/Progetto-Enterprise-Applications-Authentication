@@ -10,10 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class EnterpriseApplicationsAuthenticationApplication implements CommandLineRunner {
+public class EnterpriseApplicationsAuthenticationApplication {
 
-    @Autowired
-    private RoleDao roleDao;
 
     public static void main(String[] args) {
         SpringApplication.run(EnterpriseApplicationsAuthenticationApplication.class, args);
@@ -22,15 +20,5 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        Role adminRole = new Role();
-        Role userRole = new Role();
-        adminRole.setName("ROLE_ADMIN");
-        userRole.setName("ROLE_USER");
-        this.roleDao.save(adminRole);
-        this.roleDao.save(userRole);
     }
 }

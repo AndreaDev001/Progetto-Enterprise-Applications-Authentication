@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto
+public class CreateLocalUserDto
 {
     @NotNull
     @NotBlank

@@ -1,11 +1,11 @@
 package com.enterpriseapplications.authserver.config;
 
 import com.enterpriseapplications.authserver.PasswordAuthenticationProvider;
-import com.enterpriseapplications.authserver.data.dao.UserDao;
-import com.enterpriseapplications.authserver.data.entities.User;
+import com.enterpriseapplications.authserver.data.dao.users.LocalUserDao;
+import com.enterpriseapplications.authserver.data.dao.users.UserDao;
+import com.enterpriseapplications.authserver.data.entities.users.LocalUser;
 import com.enterpriseapplications.authserver.federated.FederatedIdentityConfigurer;
 import com.enterpriseapplications.authserver.federated.OAuth2UserHandler;
-import com.enterpriseapplications.authserver.service.implementations.ClientServiceImp;
 import com.enterpriseapplications.authserver.service.implementations.UserDetailsServiceImp;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -16,35 +16,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.*;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.security.KeyPair;
@@ -60,7 +50,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthConfig
 {
-    private final UserDao userDao;
+    private final LocalUserDao localUserDao;
     private final UserDetailsServiceImp userDetailsServiceImp;
     private final PasswordAuthenticationProvider passwordAuthenticationProvider;
 
@@ -84,7 +74,8 @@ public class AuthConfig
                         auth.requestMatchers("/users/**").permitAll()
                                 .requestMatchers("/roles/**").permitAll()
                                 .requestMatchers("/clients/**").permitAll()
-                                .anyRequest().authenticated())
+                                .requestMatchers("/login").permitAll()
+                                .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults());
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/clients/**"));
         httpSecurity.apply(new FederatedIdentityConfigurer());
@@ -163,12 +154,17 @@ public class AuthConfig
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
         return context -> {
             Authentication principal = context.getPrincipal();
-            User requiredUser = this.userDao.findById(UUID.fromString(principal.getName())).orElseThrow();
-            Set<String> roles = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
             context.getClaims().claim("type",context.getTokenType().getValue());
-            context.getClaims().claim("roles",roles);
-            context.getClaims().claim("username",requiredUser.getUsername());
-            context.getClaims().claim("email",requiredUser.getEmail());
+            if(principal instanceof UsernamePasswordAuthenticationToken) {
+                LocalUser requiredUser = this.localUserDao.findById(UUID.fromString(principal.getName())).orElseThrow();
+                Set<String> roles = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+                context.getClaims().claim("roles",roles);
+                context.getClaims().claim("username",requiredUser.getUsername());
+                context.getClaims().claim("email",requiredUser.getEmail());
+            }
+            else if(principal instanceof OAuth2AuthenticationToken) {
+
+            }
         };
     }
 }

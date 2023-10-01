@@ -1,7 +1,7 @@
 package com.enterpriseapplications.authserver;
 
-import com.enterpriseapplications.authserver.data.dao.UserDao;
-import com.enterpriseapplications.authserver.data.entities.User;
+import com.enterpriseapplications.authserver.data.dao.users.UserDao;
+import com.enterpriseapplications.authserver.data.entities.users.LocalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +19,7 @@ public class PasswordAuthenticationProvider implements AuthenticationProvider
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        User requiredUser = this.userDao.getUserByUsername(authentication.getName()).orElseThrow();
+        LocalUser requiredUser = this.userDao.getUserByUsername(authentication.getName()).orElseThrow();
         if(passwordEncoder.matches(authentication.getCredentials().toString(),requiredUser.getPassword())) {
             return new UsernamePasswordAuthenticationToken(requiredUser.getId(),authentication.getCredentials(),requiredUser.getAuthorities());
         }

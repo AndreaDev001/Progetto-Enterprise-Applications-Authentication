@@ -1,14 +1,10 @@
 package com.enterpriseapplications.authserver.federated;
 
-import com.enterpriseapplications.authserver.data.dao.UserDao;
-import com.enterpriseapplications.authserver.data.entities.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.Optional;
 
 public class OAuth2UserHandler implements Consumer<OAuth2User> {
 
