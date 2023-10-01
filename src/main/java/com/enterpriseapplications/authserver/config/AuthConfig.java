@@ -3,6 +3,8 @@ package com.enterpriseapplications.authserver.config;
 import com.enterpriseapplications.authserver.PasswordAuthenticationProvider;
 import com.enterpriseapplications.authserver.data.dao.UserDao;
 import com.enterpriseapplications.authserver.data.entities.User;
+import com.enterpriseapplications.authserver.federated.FederatedIdentityConfigurer;
+import com.enterpriseapplications.authserver.federated.OAuth2UserHandler;
 import com.enterpriseapplications.authserver.service.implementations.ClientServiceImp;
 import com.enterpriseapplications.authserver.service.implementations.UserDetailsServiceImp;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -20,6 +22,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +32,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -40,6 +45,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -54,31 +60,34 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthConfig
 {
-    private final PasswordEncoder passwordEncoder;
     private final UserDao userDao;
     private final UserDetailsServiceImp userDetailsServiceImp;
     private final PasswordAuthenticationProvider passwordAuthenticationProvider;
-    private final ClientServiceImp clientServiceImp;
 
     @Bean
     @Order(1)
     public SecurityFilterChain authFilterChain(HttpSecurity httpSecurity) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
-        httpSecurity.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
-        httpSecurity.exceptionHandling(exception -> exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
+        httpSecurity.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                .oidc(Customizer.withDefaults());
+        httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
+        httpSecurity.apply(new FederatedIdentityConfigurer());
         return httpSecurity.build();
     }
 
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity httpSecurity) throws Exception {
+        FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer()
+                .oAuth2UserConsumer(new OAuth2UserHandler());
         httpSecurity.authorizeHttpRequests(auth ->
                         auth.requestMatchers("/users/**").permitAll()
                                 .requestMatchers("/roles/**").permitAll()
-                                .requestMatchers("/clients/**").permitAll().anyRequest().authenticated())
+                                .requestMatchers("/clients/**").permitAll()
+                                .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/clients/**"));
+        httpSecurity.apply(new FederatedIdentityConfigurer());
         return httpSecurity.build();
     }
 
@@ -128,6 +137,27 @@ public class AuthConfig
         authenticationManagerBuilder.authenticationProvider(passwordAuthenticationProvider);
         return authenticationManagerBuilder.build();
     }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
+    @Bean
+    public OAuth2AuthorizationService authorizationService() {
+        return new InMemoryOAuth2AuthorizationService();
+    }
+
+    @Bean
+    public OAuth2AuthorizationConsentService auth2AuthorizationConsentService() {
+        return new InMemoryOAuth2AuthorizationConsentService();
+    }
+
 
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {

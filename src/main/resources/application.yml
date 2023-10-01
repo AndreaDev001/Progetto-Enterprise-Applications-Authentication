@@ -1,0 +1,11 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google-idp:
+            provider: google
+            client-id: ${GOOGLE_CLIENT_ID} 851600564894-peisdmus5cfrvrt1eom896pbrvhf09mv.apps.googleusercontent.com
+            client-secret: ${GOOGLE_CLIENT_SECRET} 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
+            scope: openid
+            client-name: ${GOOGLE_CLIENT_NAME}
