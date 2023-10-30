@@ -45,6 +45,8 @@ public class TokenConfiguration
                 roles = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
                 context.getClaims().claim("username",requiredUser.getUsername());
                 context.getClaims().claim("email",requiredUser.getEmail());
+                context.getClaims().claim("name",requiredUser.getName());
+                context.getClaims().claim("surname",requiredUser.getSurname());
             }
             else if(principal instanceof OAuth2AuthenticationToken authenticationToken) {
                 GoogleUser googleUser = this.googleUserDao.getGoogleUserByExternalID(authenticationToken.getPrincipal().getAttribute("sub")).orElseThrow();

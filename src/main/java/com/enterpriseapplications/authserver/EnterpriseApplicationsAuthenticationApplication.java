@@ -39,7 +39,7 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
 
     @Override
     public void run(String... args) throws Exception {
-        Client client = new Client();
+       /*** Client client = new Client();
         Role firstRole = new Role();
         Role secondRole = new Role();
         firstRole.setName("ROLE_USER");
@@ -54,12 +54,14 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
         LocalUser localUser = new LocalUser();
         localUser.setEmail("marchioandrea02@gmail.com");
         localUser.setUsername("andrea");
+        localUser.setName("Andrea");
+        localUser.setSurname("Marchio");
         localUser.setPassword(passwordEncoder.encode("password"));
         localUser.setRoles(Set.of(firstRole,secondRole));
         localUser.setProvider(Provider.LOCAL);
         this.roleDao.save(firstRole);
         this.roleDao.save(secondRole);
         this.clientDao.save(client);
-        this.localUserDao.save(localUser);
+        this.localUserDao.save(localUser);***/
     }
 }

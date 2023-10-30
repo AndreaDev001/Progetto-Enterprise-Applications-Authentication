@@ -3,14 +3,20 @@ package com.enterpriseapplications.authserver.controllers.users;
 import com.enterpriseapplications.authserver.data.dto.input.CreateLocalUserDto;
 import com.enterpriseapplications.authserver.data.dto.output.users.LocalUserDto;
 import com.enterpriseapplications.authserver.service.interfaces.users.LocalUserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
+@Controller
 @RequestMapping("/localUsers")
 @RequiredArgsConstructor
 public class LocalUserController {
@@ -28,8 +34,9 @@ public class LocalUserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<LocalUserDto> createUser(@RequestBody CreateLocalUserDto createUserDto) {
-        System.out.println("CALLED");
-        return ResponseEntity.ok(this.userService.createUser(createUserDto));
+    @SneakyThrows
+    public void createUser(@ParameterObject CreateLocalUserDto createLocalUserDto, HttpServletRequest httpServletRequest,HttpServletResponse response) {
+        this.userService.createUser(createLocalUserDto);
+        response.sendRedirect("http://localhost:9000/login");
     }
 }

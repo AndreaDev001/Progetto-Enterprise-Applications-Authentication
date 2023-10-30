@@ -44,17 +44,16 @@ public class LocalUserServiceImp implements LocalUserService {
     @Override
     @Transactional
     public LocalUserDto createUser(CreateLocalUserDto createUserDto) {
+        Role role = this.roleDao.getRoleByName("ROLE_USER").orElseThrow();
         LocalUser user = new LocalUser();
         user.setEmail(createUserDto.getEmail());
         user.setUsername(createUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
-        Set<Role> roles = new HashSet<>();
-        createUserDto.getRoles().forEach(role -> {
-            Role requiredRole = this.roleDao.getRoleByName(role).orElseThrow();
-            roles.add(requiredRole);
-        });
+        Set<Role> roles = Set.of(role);
         user.setRoles(roles);
         user.setProvider(Provider.LOCAL);
+        user.setName(createUserDto.getName());
+        user.setSurname(createUserDto.getSurname());
         this.localUserDao.save(user);
         return this.modelMapper.map(user, LocalUserDto.class);
     }

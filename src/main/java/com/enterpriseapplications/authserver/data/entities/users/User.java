@@ -36,6 +36,7 @@ public class User
     protected String username;
 
     @Column(name = "PROVIDER",unique = false)
+    @Enumerated(EnumType.STRING)
     protected Provider provider;
 
     @ManyToMany(fetch = FetchType.EAGER)

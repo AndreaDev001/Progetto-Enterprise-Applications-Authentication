@@ -18,5 +18,7 @@ public class LocalUserDto extends UserDto
     private boolean expired;
     private boolean locked;
     private boolean enabled;
+    private String name;
+    private String surname;
     private LocalDate createdDate;
 }

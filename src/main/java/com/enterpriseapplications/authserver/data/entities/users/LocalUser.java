@@ -33,6 +33,12 @@ public class LocalUser extends User implements UserDetails
     @Column(name = "PASSWORD",unique = false,nullable = false)
     private String password;
 
+    @Column(name = "NAME",unique = false,nullable = false)
+    private String name;
+
+    @Column(name = "SURNAME",unique = false,nullable = false)
+    private String surname;
+
     @Column(name = "EXPIRED",unique = false,nullable = false)
     private boolean expired;
 

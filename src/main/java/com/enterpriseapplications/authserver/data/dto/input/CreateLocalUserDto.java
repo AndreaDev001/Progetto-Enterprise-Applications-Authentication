@@ -28,5 +28,11 @@ public class CreateLocalUserDto
     @NotBlank
     private String password;
 
-    private Set<String> roles;
+    @NotNull
+    @NotBlank
+    private String name;
+
+    @NotNull
+    @NotBlank
+    private String surname;
 }

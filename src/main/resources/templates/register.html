@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Register</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    </head>
+    <style>
+        *
+        {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 <body>
-
+<div class = "container">
+    <div class = "text-center">
+        <h2 class="form-signin-headin">Register</h2>
+        <p>Please specify an email,username,name,surname and a password</p>
+    </div>
+    <form method="POST" class = "form-signin" action="http://localhost:9000/localUsers/create">
+        <div class = "mt-1">
+            <label for="emailControl">Email</label>
+            <input name="email" class = "form-control" id= "emailControl" type="email" required placeholder="Write an email...">
+        </div>
+        <div class = "mt-1">
+            <label for="usernameControl">Username</label>
+            <input name="username" class="form-control" pattern="^[a-zA-Z0-9]+$" id="usernameControl" type="text" required placeholder="Write an username...">
+        </div>
+        <div class = "mt-1">
+            <label for="passwordControl">Password</label>
+            <input name="password" class = "form-control" placeholder="Write a password..." id="passwordControl" type="password">
+        </div>
+        <div class = "d-flex justify-content-between mt-1">
+            <div>
+                <label for="nameControl">Name</label>
+                <input name="name" class = "form-control" pattern="^[a-zA-Z0-9]+$" required placeholder="Write a name..." id="nameControl" type="text">
+            </div>
+            <div class = "mx-1">
+                <label for="surnameControl">Surname</label>
+                <input name="surname" class = "form-control" pattern="^[a-zA-Z0-9]+$" placeholder="Write a surname..."  id="surnameControl" required type="text">
+            </div>
+        </div>
+        <div class = "mt-1">
+            <button type="submit" class = "btn btn-primary w-100">Confirm</button>
+            <button type="button" class = "mt-1 btn btn-danger w-100">Reset</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

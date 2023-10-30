@@ -14,20 +14,22 @@
         <div th:if="${param.error}" class="alert alert-danger" role="alert">
             Credentials Error
         </div>
-        <h2 class="form-signin-heading">Sign In</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-        <a class="btn btn-light btn-block bg-white" href="http://localhost:9000/oauth2/authorization/google-idp" role="link" style="text-transform: none;">
-            <img width="20" style="margin-right: 5px;" alt="Continue with google" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-            Continue with google
-        </a>
+        <h2 class="form-signin-heading w-100 text-center">Sign In</h2>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Write an username..." required autofocus>
+        </div>
+        <div class = "mt-1">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Write your password..." required>
+        </div>
+        <div class = "p-3">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            <a class="btn btn-light btn-block bg-white" href="http://localhost:9000/oauth2/authorization/google-idp" role="link" style="text-transform: none;">
+                <img width="20" style="margin-right: 5px;" alt="Continue with google" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                Continue with google
+            </a>
+        </div>
     </form>
 </div>
 </body>

@@ -35,6 +35,7 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.security.KeyPair;
@@ -52,7 +53,7 @@ public class AuthConfig
 {
     private final UserDetailsServiceImp userDetailsServiceImp;
     private final PasswordAuthenticationProvider passwordAuthenticationProvider;
-    private final OAuth2UserHandler oAuth2UserHandler;
+    private final OAuth2UserHandler oAuth2UserHandler;;
 
     @Bean
     @Order(1)
@@ -77,7 +78,7 @@ public class AuthConfig
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/documentation/**").permitAll()
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults());
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/localUsers/**","/clients/**"));
         httpSecurity.apply(federatedIdentityConfigurer);
