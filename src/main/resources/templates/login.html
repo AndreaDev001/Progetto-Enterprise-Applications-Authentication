@@ -12,7 +12,7 @@
 <div class="container">
     <form class="form-signin" method="post" th:action="@{/login}">
         <div th:if="${param.error}" class="alert alert-danger" role="alert">
-            Credentials Error
+            Username or password not valid
         </div>
         <h2 class="form-signin-heading w-100 text-center">Sign In</h2>
         <div>
@@ -23,7 +23,8 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Write your password..." required>
         </div>
-        <div class = "p-3">
+        <div class = "p-1">
+            <a href="http://localhost:9000/register">Don't have an account? Register</a>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             <a class="btn btn-light btn-block bg-white" href="http://localhost:9000/oauth2/authorization/google-idp" role="link" style="text-transform: none;">
                 <img width="20" style="margin-right: 5px;" alt="Continue with google" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />

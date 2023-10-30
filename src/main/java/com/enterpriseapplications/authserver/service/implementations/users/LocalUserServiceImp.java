@@ -55,6 +55,6 @@ public class LocalUserServiceImp implements LocalUserService {
         user.setName(createUserDto.getName());
         user.setSurname(createUserDto.getSurname());
         this.localUserDao.save(user);
-        return this.modelMapper.map(user, LocalUserDto.class);
+        return new LocalUserDto();
     }
 }

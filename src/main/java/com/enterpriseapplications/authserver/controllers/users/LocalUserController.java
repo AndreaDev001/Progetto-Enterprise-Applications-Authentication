@@ -36,7 +36,13 @@ public class LocalUserController {
     @PostMapping("/create")
     @SneakyThrows
     public void createUser(@ParameterObject CreateLocalUserDto createLocalUserDto, HttpServletRequest httpServletRequest,HttpServletResponse response) {
-        this.userService.createUser(createLocalUserDto);
-        response.sendRedirect("http://localhost:9000/login");
+        try
+        {
+            this.userService.createUser(createLocalUserDto);
+            response.sendRedirect("http://localhost:9000/login");
+        }
+        catch (Exception exception) {
+            response.sendRedirect("http://localhost:9000/register?error=already_existing");
+        }
     }
 }

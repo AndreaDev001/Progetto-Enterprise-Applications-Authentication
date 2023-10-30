@@ -1,8 +1,6 @@
 package com.enterpriseapplications.authserver.config;
 
 
-import com.enterpriseapplications.authserver.data.dao.users.FacebookUserDao;
-import com.enterpriseapplications.authserver.data.dao.users.GithubUserDao;
 import com.enterpriseapplications.authserver.data.dao.users.GoogleUserDao;
 import com.enterpriseapplications.authserver.data.dao.users.LocalUserDao;
 import com.enterpriseapplications.authserver.data.entities.Role;
@@ -29,8 +27,6 @@ public class TokenConfiguration
 {
     private final LocalUserDao localUserDao;
     private final GoogleUserDao googleUserDao;
-    private final GithubUserDao githubUserDao;
-    private final FacebookUserDao facebookUserDao;
 
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {

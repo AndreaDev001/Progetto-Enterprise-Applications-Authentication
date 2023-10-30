@@ -39,7 +39,7 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
 
     @Override
     public void run(String... args) throws Exception {
-       /*** Client client = new Client();
+        /**Client client = new Client();
         Role firstRole = new Role();
         Role secondRole = new Role();
         firstRole.setName("ROLE_USER");
@@ -62,6 +62,6 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
         this.roleDao.save(firstRole);
         this.roleDao.save(secondRole);
         this.clientDao.save(client);
-        this.localUserDao.save(localUser);***/
+        this.localUserDao.save(localUser);**/
     }
 }

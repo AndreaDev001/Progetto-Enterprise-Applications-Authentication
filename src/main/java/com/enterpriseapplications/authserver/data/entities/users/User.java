@@ -29,7 +29,7 @@ public class User
     @Column(name = "USER_ID")
     protected UUID id;
 
-    @Column(name = "EMAIL",unique = false)
+    @Column(name = "EMAIL",unique = true)
     protected String email;
 
     @Column(name = "USERNAME",unique = false)
