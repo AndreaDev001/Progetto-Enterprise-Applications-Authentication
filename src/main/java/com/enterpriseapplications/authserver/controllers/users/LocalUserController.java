@@ -6,13 +6,16 @@ import com.enterpriseapplications.authserver.service.interfaces.users.LocalUserS
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.BindException;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class LocalUserController {
 
     private final LocalUserService userService;
+    private final Validator validator;
 
     @GetMapping("/id/{userID}")
     public ResponseEntity<LocalUserDto> getUser(@PathVariable("userID") UUID id) {
@@ -35,7 +39,7 @@ public class LocalUserController {
 
     @PostMapping("/create")
     @SneakyThrows
-    public void createUser(@ParameterObject CreateLocalUserDto createLocalUserDto, HttpServletRequest httpServletRequest,HttpServletResponse response) {
+    public void createUser(@ParameterObject @Valid CreateLocalUserDto createLocalUserDto, HttpServletRequest httpServletRequest,HttpServletResponse response) {
         try
         {
             this.userService.createUser(createLocalUserDto);

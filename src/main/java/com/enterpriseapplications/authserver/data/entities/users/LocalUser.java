@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -34,9 +35,11 @@ public class LocalUser extends User implements UserDetails
     private String password;
 
     @Column(name = "NAME",unique = false,nullable = false)
+    @Length(min = 3,max = 10)
     private String name;
 
     @Column(name = "SURNAME",unique = false,nullable = false)
+    @Length(min = 3,max = 10)
     private String surname;
 
     @Column(name = "EXPIRED",unique = false,nullable = false)

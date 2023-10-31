@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,6 +34,7 @@ public class User
     protected String email;
 
     @Column(name = "USERNAME",unique = false)
+    @Length(min = 3,max = 30)
     protected String username;
 
     @Column(name = "PROVIDER",unique = false)
