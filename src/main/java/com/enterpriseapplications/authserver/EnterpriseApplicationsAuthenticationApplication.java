@@ -39,7 +39,7 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
 
     @Override
     public void run(String... args) throws Exception {
-        /**Client client = new Client();
+        Client client = new Client();
         Role firstRole = new Role();
         Role secondRole = new Role();
         firstRole.setName("ROLE_USER");
@@ -48,7 +48,7 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
         client.setClientSecret(passwordEncoder.encode("secret"));
         client.setAuthenticationMethods(Set.of(ClientAuthenticationMethod.CLIENT_SECRET_BASIC));
         client.setAuthorizationGrantTypes(Set.of(AuthorizationGrantType.AUTHORIZATION_CODE,AuthorizationGrantType.CLIENT_CREDENTIALS,AuthorizationGrantType.REFRESH_TOKEN));
-        client.setRedirectUris(Set.of("https://oauthdebugger.com/debug","https://oauth.pstmn.io/v1/callback"));
+        client.setRedirectUris(Set.of("https://oauthdebugger.com/debug","https://oauth.pstmn.io/v1/callback","clowning://moose.ac"));
         client.setScopes(Set.of("openid"));
         client.setProofKey(true);
         LocalUser localUser = new LocalUser();
@@ -62,6 +62,6 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
         this.roleDao.save(firstRole);
         this.roleDao.save(secondRole);
         this.clientDao.save(client);
-        this.localUserDao.save(localUser);**/
+        this.localUserDao.save(localUser);
     }
 }

@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "USERS",uniqueConstraints = {@UniqueConstraint(columnNames = {"USERNAME","PROVIDER"}),@UniqueConstraint(columnNames = {"EMAIL","PROVIDER"})})
 @Inheritance(strategy = InheritanceType.JOINED)
 @EntityListeners({AuditingEntityListener.class})
 @Data
@@ -30,14 +30,14 @@ public class User
     @Column(name = "USER_ID")
     protected UUID id;
 
-    @Column(name = "EMAIL",unique = true)
+    @Column(name = "EMAIL",nullable = false)
     protected String email;
 
-    @Column(name = "USERNAME",unique = false)
+    @Column(name = "USERNAME",nullable = false)
     @Length(min = 3,max = 30)
     protected String username;
 
-    @Column(name = "PROVIDER",unique = false)
+    @Column(name = "PROVIDER",nullable = false)
     @Enumerated(EnumType.STRING)
     protected Provider provider;
 
@@ -46,11 +46,11 @@ public class User
     private Set<Role> roles = new HashSet<>();
 
     @CreatedDate
-    @Column(name = "CREATED_DATE",unique = false)
+    @Column(name = "CREATED_DATE",nullable = false)
     protected LocalDate createdDate;
 
     @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_DATE",unique = false)
+    @Column(name = "LAST_MODIFIED_DATE",nullable = false)
     protected LocalDate lastModifiedDate;
 
 }

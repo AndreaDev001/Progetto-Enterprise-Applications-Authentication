@@ -22,8 +22,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.Instant;
 import java.util.*;
 
-@RestControllerAdvice
 @RequiredArgsConstructor
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     private final MessageGetter messageGetter;

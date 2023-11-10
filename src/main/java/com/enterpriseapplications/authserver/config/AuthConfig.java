@@ -72,13 +72,15 @@ public class AuthConfig
         FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer()
                 .oAuth2UserConsumer(oAuth2UserHandler);
         httpSecurity.authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/users/**","/localUsers/**","/googleUsers/**","/githubUsers/**","/facebookUsers/**").permitAll()
-                                .requestMatchers("/roles/**").permitAll()
-                                .requestMatchers("/clients/**").permitAll()
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/documentation/**").permitAll()
-                                .anyRequest().authenticated())
+                auth.requestMatchers("/localUsers/public/**").permitAll()
+                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/googleUsers/public/**").permitAll()
+                        .requestMatchers("/clients/public/**").permitAll()
+                        .requestMatchers("/roles/public/**").permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/documentation/ui").permitAll()
+                        .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/**","/localUsers/**","/clients/**"));
         httpSecurity.apply(federatedIdentityConfigurer);
@@ -92,7 +94,7 @@ public class AuthConfig
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().issuer("http://localhost:9000").build();
+        return AuthorizationServerSettings.builder().issuer("http://enterpriseapplications.live:9000").build();
     }
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {

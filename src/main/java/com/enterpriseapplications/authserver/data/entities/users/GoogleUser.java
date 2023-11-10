@@ -21,13 +21,13 @@ public class GoogleUser extends User {
     @Column(name = "EXTERNAL_ID",unique = true,nullable = false)
     private String externalID;
 
-    @Column(name = "NAME",unique = false)
+    @Column(name = "NAME",nullable = false)
     private String name;
 
-    @Column(name = "GIVEN_NAME",unique = false)
+    @Column(name = "GIVEN_NAME",nullable = false)
     private String givenName;
 
-    @Column(name = "FAMILY_NAME",unique = false)
+    @Column(name = "FAMILY_NAME",nullable = false)
     private String familyName;
 
     public static GoogleUser fromOAuth2User(OAuth2User oAuth2User) {

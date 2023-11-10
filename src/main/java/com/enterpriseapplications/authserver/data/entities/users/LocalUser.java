@@ -31,10 +31,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LocalUser extends User implements UserDetails
 {
-    @Column(name = "PASSWORD",unique = false,nullable = false)
+    @Column(name = "PASSWORD",nullable = false)
     private String password;
 
-    @Column(name = "NAME",unique = false,nullable = false)
+    @Column(name = "NAME",nullable = false)
     @Length(min = 3,max = 10)
     private String name;
 

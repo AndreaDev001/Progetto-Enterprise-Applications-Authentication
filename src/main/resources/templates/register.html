@@ -21,13 +21,13 @@
 <body>
 <div class = "container">
     <div th:if="${param.error}" class="alert alert-danger" role="alert">
-        Another user with the same email already exists
+        Another user with the same email or username already exists
     </div>
     <div class = "text-center">
         <h2 class="form-signin-headin">Register</h2>
         <p>Please specify an email,username,name,surname and a password</p>
     </div>
-    <form method="POST" class = "form-signin" action="http://localhost:9000/localUsers/create">
+    <form method="POST" class = "form-signin" action="http://enterpriseapplications.live:9000/localUsers/create">
         <div class = "mt-1">
             <label for="emailControl">Email</label>
             <input name="email" class = "form-control" id= "emailControl" type="email" required placeholder="Write an email...">
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class = "mt-1">
-            <a href="http://localhost:9000/login">Already have an account? Sign in</a>
+            <a href="http://enterpriseapplications.live:9000/login">Already have an account? Sign in</a>
         </div>
         <div class = "mt-1">
             <button id = "confirmButton" type="submit" class = "btn btn-primary w-100">Confirm</button>
