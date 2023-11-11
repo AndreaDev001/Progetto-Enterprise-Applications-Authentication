@@ -3,6 +3,7 @@ package com.enterpriseapplications.authserver.data.entities.users;
 import com.enterpriseapplications.authserver.data.entities.Role;
 import com.enterpriseapplications.authserver.data.entities.enums.Provider;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class User
     protected UUID id;
 
     @Column(name = "EMAIL",nullable = false)
+    @Email
     protected String email;
 
     @Column(name = "USERNAME",nullable = false)

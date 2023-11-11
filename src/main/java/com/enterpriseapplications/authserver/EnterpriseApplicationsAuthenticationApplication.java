@@ -39,6 +39,8 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
 
     @Override
     public void run(String... args) throws Exception {
+
+        //Commentare se non si crea il database
         Client client = new Client();
         Role firstRole = new Role();
         Role secondRole = new Role();
@@ -51,17 +53,44 @@ public class EnterpriseApplicationsAuthenticationApplication implements CommandL
         client.setRedirectUris(Set.of("https://oauthdebugger.com/debug","https://oauth.pstmn.io/v1/callback","clowning://moose.ac"));
         client.setScopes(Set.of("openid"));
         client.setProofKey(true);
-        LocalUser localUser = new LocalUser();
-        localUser.setEmail("marchioandrea02@gmail.com");
-        localUser.setUsername("andrea");
-        localUser.setName("Andrea");
-        localUser.setSurname("Marchio");
-        localUser.setPassword(passwordEncoder.encode("password"));
-        localUser.setRoles(Set.of(firstRole,secondRole));
-        localUser.setProvider(Provider.LOCAL);
+        LocalUser firstUser = new LocalUser();
+        firstUser.setEmail("marchioandrea02@gmail.com");
+        firstUser.setUsername("andrea");
+        firstUser.setName("Andrea");
+        firstUser.setSurname("Marchio");
+        firstUser.setPassword(passwordEncoder.encode("password"));
+        firstUser.setRoles(Set.of(firstRole,secondRole));
+        firstUser.setProvider(Provider.LOCAL);
+        LocalUser secondUser = new LocalUser();
+        secondUser.setEmail("andrea.marchio@virgilio.it");
+        secondUser.setUsername("andrea1");
+        secondUser.setName("Andrea");
+        secondUser.setSurname("Marchio");
+        secondUser.setPassword(passwordEncoder.encode("password"));
+        secondUser.setRoles(Set.of(firstRole));
+        secondUser.setProvider(Provider.LOCAL);
+        LocalUser thirdUser = new LocalUser();
+        thirdUser.setEmail("andrea.marchio01@virgilio.it");
+        thirdUser.setUsername("andreamarchio01");
+        thirdUser.setName("andrea");
+        thirdUser.setSurname("marchio");
+        thirdUser.setPassword(passwordEncoder.encode("password"));
+        thirdUser.setRoles(Set.of(firstRole));
+        thirdUser.setProvider(Provider.LOCAL);
+        LocalUser fourthUser = new LocalUser();
+        fourthUser.setEmail("andrea.marchio02@virgilio.it");
+        fourthUser.setUsername("andrea01");
+        fourthUser.setName("Andrea");
+        fourthUser.setSurname("Marchio");
+        fourthUser.setPassword(passwordEncoder.encode("password"));
+        fourthUser.setRoles(Set.of(firstRole));
+        fourthUser.setProvider(Provider.LOCAL);
         this.roleDao.save(firstRole);
         this.roleDao.save(secondRole);
         this.clientDao.save(client);
-        this.localUserDao.save(localUser);
+        this.localUserDao.save(firstUser);
+        this.localUserDao.save(secondUser);
+        this.localUserDao.save(thirdUser);
+        this.localUserDao.save(fourthUser);
     }
 }
