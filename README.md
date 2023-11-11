@@ -18,6 +18,7 @@ Valori GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GOOGLE_CLIENT_NAME: </br>
 Il server è eseguito già su una VPS remota e di conseguenza per provare l'applicazione non è necessario eseguirlo localmente </br>
 E' possibile eseguire il server in modo locale, anche se così facendo non sarà possibile effettuare il login con Google, per via della configurazione su google cloud console, inoltre è anche necessario
 sostituire i link all'interno dei file di risorse con **localhost:9000** invece che **enterpriseapplications.live:9000** <br>
+Se si esegue il server in locale, assicurarsi di avere uno schema con nome **"enterpriseapplicationsauth"** all'interno del proprio database, inoltre se il database non è impostato sulla modalità **create** commentare il codice all'interno della funzione run nella class Main
 E' possibile ottenere un access token utilizzando il client android o postman:</br>
 **Auth URL**: http://enterpriseapplications.live:9000/oauth2/authorize</br>
 **Token URL**: http://enterpriseapplications.live:9000/oauth2/token</br>
