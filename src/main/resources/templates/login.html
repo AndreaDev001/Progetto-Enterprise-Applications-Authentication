@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<style>
+    *
+    {
+        margin: 0;
+        padding: 0;
+    }
+    small
+    {
+        color: red
+    }
+    button
+    {
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="container">
+    <form class="form-signin" method="post" th:action="@{/login}">
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            Username or password not valid
+        </div>
+        <h2 class="form-signin-heading w-100 text-center">Sign In</h2>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Write an username..." required autofocus>
+        </div>
+        <div class = "mt-1">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Write your password..." required>
+        </div>
+        <div class = "p-1">
+            <a href="http://enterpriseapplications.live:9000/register">Don't have an account? Register</a>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            <a class="btn btn-light btn-block bg-white" href="http://enterpriseapplications.live:9000/oauth2/authorization/google-idp" role="link" style="text-transform: none;">
+                <img width="20" style="margin-right: 5px;" alt="Continue with google" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                Continue with google
+            </a>
+        </div>
+    </form>
+</div>
+<script>
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 package com.enterpriseapplications.authserver.service.implementations;
 
-import com.enterpriseapplications.authserver.data.dao.UserDao;
+import com.enterpriseapplications.authserver.data.dao.users.UserDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

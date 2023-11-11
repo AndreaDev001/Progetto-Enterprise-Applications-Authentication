@@ -34,7 +34,7 @@ public class Client
     @Column(name = "CLIENT_ID",unique = true,nullable = false)
     private String clientID;
 
-    @Column(name = "CLIENT_SECRET",unique = false,nullable = false)
+    @Column(name = "CLIENT_SECRET",nullable = false)
     private String clientSecret;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -49,15 +49,15 @@ public class Client
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> scopes;
 
-    @Column(name = "PROOF_KEY",unique = false,nullable = false)
+    @Column(name = "PROOF_KEY",nullable = false)
     private boolean proofKey;
 
     @CreatedDate
-    @Column(name = "CREATED_DATE",unique = false)
+    @Column(name = "CREATED_DATE",nullable = false)
     private LocalDate createdDate;
 
     @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_DATE",unique = false)
+    @Column(name = "LAST_MODIFIED_DATE",nullable = false)
     private LocalDate lastModifiedDate;
 
     public static RegisteredClient convert(Client client) {

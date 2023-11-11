@@ -1,23 +1,24 @@
-package com.enterpriseapplications.authserver.data.dto.output;
+package com.enterpriseapplications.authserver.data.dto.output.users;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
+
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto
+public class LocalUserDto extends UserDto
 {
-    private UUID id;
-    private String email;
-    private String username;
     private boolean expired;
     private boolean locked;
     private boolean enabled;
+    private String name;
+    private String surname;
     private LocalDate createdDate;
 }

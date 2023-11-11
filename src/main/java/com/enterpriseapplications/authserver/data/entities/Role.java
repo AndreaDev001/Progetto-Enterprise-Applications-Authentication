@@ -21,7 +21,7 @@ public class Role implements GrantedAuthority
     @Column(name = "ROLE_ID")
     private UUID id;
 
-    @Column(name = "NAME",unique = true)
+    @Column(name = "NAME",unique = true,nullable = false)
     private String name;
 
     @Override

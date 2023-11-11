@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Register</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    </head>
+    <style>
+        *
+        {
+             padding: 0;
+             margin: 0;
+        }
+        small
+        {
+            color: red;
+        }
+    </style>
+<body>
+<div class = "container">
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Another user with the same email or username already exists
+    </div>
+    <div class = "text-center">
+        <h2 class="form-signin-headin">Register</h2>
+        <p>Please specify an email,username,name,surname and a password</p>
+    </div>
+    <form method="POST" class = "form-signin" action="http://enterpriseapplications.live:9000/localUsers/public/create">
+        <div class = "mt-1">
+            <label for="emailControl">Email</label>
+            <input name="email" class = "form-control" id= "emailControl" type="email" required placeholder="Write an email...">
+            <div id = "emailErrorContainer"></div>
+        </div>
+        <div class = "mt-1">
+            <label for="usernameControl">Username</label>
+            <input name="username" class="form-control" pattern="^[a-zA-Z0-9]+$" id="usernameControl" type="text" required placeholder="Write an username...">
+            <div id = "usernameErrorContainer"></div>
+        </div>
+        <div class = "mt-1">
+            <label for="passwordControl">Password</label>
+            <input name="password" class = "form-control" placeholder="Write a password..." id="passwordControl" type="password">
+            <div id = "passwordErrorContainer"></div>
+        </div>
+        <div class = "d-flex justify-content-between mt-1">
+            <div>
+                <label for="nameControl">Name</label>
+                <input name="name" class = "form-control" pattern="^[a-zA-Z0-9]+$" required placeholder="Write a name..." id="nameControl" type="text">
+                <div id = "nameErrorContainer"></div>
+            </div>
+            <div class = "mx-1">
+                <label for="surnameControl">Surname</label>
+                <input name="surname" class = "form-control" pattern="^[a-zA-Z0-9]+$" placeholder="Write a surname..."  id="surnameControl" required type="text">
+                <div id = "surnameErrorContainer"></div>
+            </div>
+        </div>
+        <div class = "mt-1">
+            <a href="http://enterpriseapplications.live:9000/login">Already have an account? Sign in</a>
+        </div>
+        <div class = "mt-1">
+            <button id = "confirmButton" type="submit" class = "btn btn-primary w-100">Confirm</button>
+            <button id = "resetButton" type="button" class = "mt-1 btn btn-danger w-100">Reset</button>
+        </div>
+    </form>
+    <script>
+        var emailControl = document.getElementById("emailControl")
+var usernameControl = document.getElementById("usernameControl")
+var passwordControl = document.getElementById("passwordControl")
+var nameControl = document.getElementById("nameControl")
+var surnameControl = document.getElementById("surnameControl")
+var resetButton = document.getElementById("resetButton")
+
+var emailErrorContainer = document.getElementById("emailErrorContainer")
+var usernameErrorContainer = document.getElementById("usernameErrorContainer")
+var passwordErrorContainer = document.getElementById("passwordErrorContainer")
+var nameErrorContainer = document.getElementById("nameErrorContainer")
+var surnameErrorContainer = document.getElementById("surnameErrorContainer")
+
+var emailErrors = []
+var usernameErrors = []
+var passwordErrors = []
+var nameErrors = []
+var surnameErrors = []
+
+resetButton.addEventListener('click',(event) => {
+reset()
+})
+emailControl.addEventListener('input',(event) => {
+let email = event.target.value
+emailErrors = []
+emailErrorContainer.innerHTML = ""
+})
+usernameControl.addEventListener('input',(event) => {
+let username = event.target.value
+usernameErrors = []
+usernameErrorContainer.innerHTML = ""
+if(username.length < 3)
+    usernameErrors.push("Username must be longer than 3 characters")
+if(username.length > 20)
+    usernameErrors.push("Username must be shorter than 20 characters")
+for(let i = 0;i < usernameErrors.length;i++) {
+    let error = usernameErrors[i]
+    usernameErrorContainer.innerHTML += "<small class = d-block>" + error + "</small>"
+}
+})
+passwordControl.addEventListener('input',(event) => {
+let password = event.target.value
+passwordErrors = []
+passwordErrorContainer.innerHTML = ""
+if(password.length < 5)
+    passwordErrors.push("Password must be longer than 5 characters");
+for(let i = 0;i < passwordErrors.length;i++) {
+    let error = passwordErrors[i]
+    passwordErrorContainer.innerHTML += "<small class = d-block>" + error + "</small>"
+}
+});
+nameControl.addEventListener('input',(event) => {
+let name = event.target.value
+nameErrors = []
+nameErrorContainer.innerHTML = ""
+if(name.length < 3)
+    nameErrors.push("Name must be longer than 3 characters")
+if(name.length > 10)
+    nameErrors.push("Name must be shorter than 20 characters")
+for(let i = 0;i < nameErrors.length;i++) {
+    let error = nameErrors[i]
+    nameErrorContainer.innerHTML += "<small class = d-block>" + error + "</small>"
+}
+});
+surnameControl.addEventListener('input',(event) => {
+let surname = event.target.value
+surnameErrors = []
+surnameErrorContainer.innerHTML = ""
+if(surname.length < 3)
+    surnameErrors.push("Surname must be longer than 3 characters")
+if(surname.length > 10)
+    surnameErrors.push("Surname must be shorter than 10 characters")
+for(let i = 0;i < surnameErrors.length;i++) {
+    let error = surnameErrors[i]
+    surnameErrorContainer.innerHTML += "<small class = d-block>" + error + "</small>"
+}
+});
+function reset() {
+emailControl.value = ""
+surnameControl.value = ""
+passwordControl.value = ""
+nameControl.value = ""
+surnameControl.value = ""
+}
+function valid() {
+return !(emailErrors.value.length != 0 && passwordErrors.value.length != 0 && usernameErrors.value.length != 0 && nameControl.value.length != 0
+&& surnameControl.value.length != 0)
+}
+    </script>
+</div>
+</body>
+</html>

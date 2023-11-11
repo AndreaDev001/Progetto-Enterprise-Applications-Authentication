@@ -1,11 +1,14 @@
-package com.enterpriseapplications.authserver.data.entities;
+package com.enterpriseapplications.authserver.data.entities.users;
 
 
+import com.enterpriseapplications.authserver.data.entities.Role;
+import com.enterpriseapplications.authserver.data.entities.enums.Provider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,27 +22,25 @@ import java.util.Set;
 import java.util.UUID;
 
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "USERS")
+@Table(name = "LOCAL_USERS")
 @EntityListeners({AuditingEntityListener.class})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements UserDetails
+public class LocalUser extends User implements UserDetails
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "USER_ID")
-    private UUID id;
-
-    @Column(name = "EMAIL",unique = false,nullable = false)
-    private String email;
-
-    @Column(name = "USERNAME",unique = false,nullable = false)
-    private String username;
-
-    @Column(name = "PASSWORD",unique = false,nullable = false)
+    @Column(name = "PASSWORD",nullable = false)
     private String password;
+
+    @Column(name = "NAME",nullable = false)
+    @Length(min = 3,max = 10)
+    private String name;
+
+    @Column(name = "SURNAME",unique = false,nullable = false)
+    @Length(min = 3,max = 10)
+    private String surname;
 
     @Column(name = "EXPIRED",unique = false,nullable = false)
     private boolean expired;
@@ -50,22 +51,9 @@ public class User implements UserDetails
     @Column(name = "ENABLED",unique = false,nullable = false)
     private boolean enabled;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_ROLE",joinColumns = @JoinColumn(name = "USER_ID"),inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private Set<Role> roles = new HashSet<>();
-
-    @CreatedDate
-    @Column(name = "CREATED_DATE",unique = false)
-    private LocalDate createdDate;
-
-    @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_DATE",unique = false)
-    private LocalDate lastModifiedDate;
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return this.getRoles();
     }
 
     @Override

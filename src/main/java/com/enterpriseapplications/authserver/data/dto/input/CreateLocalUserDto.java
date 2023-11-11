@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto
+public class CreateLocalUserDto
 {
     @NotNull
     @NotBlank
@@ -28,5 +28,11 @@ public class CreateUserDto
     @NotBlank
     private String password;
 
-    private Set<String> roles;
+    @NotNull
+    @NotBlank
+    private String name;
+
+    @NotNull
+    @NotBlank
+    private String surname;
 }
