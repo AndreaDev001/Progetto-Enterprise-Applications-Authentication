@@ -1,5 +1,6 @@
 # Progetto-Enterprise-Applications-Authentication
 Authentication server per il resource server del corso di Enterprise Applications, permette di ottenere access-token effettuando login in modo **locale (utilizzando email,username,password**) e **provider esterni (google)** </br>
+Sviluppato da Andrea Marchio, **223401**
 L'applicazione è pensata per essere utilizzata con un resource server, il cui codice è disponibile nella seguente repository: [Progetto-Enterprise-Applications-REST-API](https://github.com/AndreaDev001/Progetto-Enteprise-Applications-REST-API)</br>
 Se si vuole eseguire il server in locale è necessario cambiare le seguenti variabili d'ambiente:
 + **SERVER_PORT**
