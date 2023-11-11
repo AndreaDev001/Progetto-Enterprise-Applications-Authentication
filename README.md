@@ -17,5 +17,12 @@ Valori GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GOOGLE_CLIENT_NAME: </br>
 
 Il server è eseguito già su una VPS remota e di conseguenza per provare l'applicazione non è necessario eseguirlo localmente </br>
 E' possibile eseguire il server in modo locale, anche se così facendo non sarà possibile effettuare il login con Google, per via della configurazione su google cloud console, inoltre è anche necessario
-sostituire i link all'interno dei file di risorse con **localhost:9000** invece che **enterpriseapplications.live:9000**
+sostituire i link all'interno dei file di risorse con **localhost:9000** invece che **enterpriseapplications.live:9000** <br>
+E' possibile ottenere un access token utilizzando il client android o postman:</br>
+**Auth URL**: http://enterpriseapplications.live:9000/oauth2/authorize</br>
+**Token URL**: http://enterpriseapplications.live:9000/oauth2/token</br>
+**Callback URL**: https://oauth.pstmn.io/v1/callback </br>
+**Client**: client </br>
+**Secret**: secret </br>
 
+![Alt text](https://i.imgur.com/JSnPvFf.png)
