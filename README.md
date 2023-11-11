@@ -15,6 +15,14 @@ Valori GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GOOGLE_CLIENT_NAME: </br>
   CLIENT_SECRET: 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 </br>
   CLIENT_NAME: Enterprise Applications Login </br>
 
+
+Sono già stati creati degli account per effettuare direttamente il login, senza doversi registrare: </br>
+Username - password - ruoli
++ andrea - password - ADMIN
++ andrea1 - password - USER
++ andreamarchio01 - password - USER
++ andrea01 - password - USER </br>
+
 Il server è eseguito già su una VPS remota e di conseguenza per provare l'applicazione non è necessario eseguirlo localmente </br>
 E' possibile eseguire il server in modo locale, anche se così facendo non sarà possibile effettuare il login con Google, per via della configurazione su google cloud console, inoltre è anche necessario
 sostituire i link all'interno dei file di risorse con **localhost:9000** invece che **enterpriseapplications.live:9000** <br>
